@@ -43,8 +43,8 @@ namespace BlobStorageV12
             await download.Content.CopyToAsync(downloadFileStream);
             downloadFileStream.Close();
 
-            Console.WriteLine("Type 1 to Delete or 0 to exit:\n");
-            bool choise = Console.Read() == 1 ? true : false;
+            Console.WriteLine("Type y to Delete or n to exit:\n");
+            bool choise = Console.ReadLine() == "y" ? true : false;
 
             if (choise){
                 await containerClient.DeleteAsync();

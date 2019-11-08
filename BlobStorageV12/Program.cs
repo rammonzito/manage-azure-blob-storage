@@ -25,11 +25,26 @@ namespace BlobStorageV12
 
             BlobClient blobClient = containerClient.GetBlobClient(fileName);
 
-            Console.WriteLine($"Uploading to Blob Storage:\n\t {blobClient.Uri}\n");
+            Console.WriteLine($"Uploading to Blob Storage:\n\t { blobClient.Uri }\n");
 
             using FileStream uploadFileStream = File.OpenRead(localFilePath);
             await blobClient.UploadAsync(uploadFileStream);
             uploadFileStream.Close();
+
+            await foreach (BlobItem item in containerClient.GetBlobsAsync())
+                Console.WriteLine(item.Name);
+
+            string downloadFilePath = localFilePath.Replace(".txt", "Download.txt");
+            Console.WriteLine($"Downloading blob to\n\t{ downloadFilePath }\n");
+
+            BlobDownloadInfo download = await blobClient.DownloadAsync();
+
+            using FileStream downloadFileStream = File.OpenWrite(downloadFilePath);
+            await download.Content.CopyToAsync(downloadFileStream);
+            downloadFileStream.Close();
+
+           
+
         }
     }
 }

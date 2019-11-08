@@ -1,0 +1,2 @@
+# manage azure blob store
+

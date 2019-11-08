@@ -43,8 +43,16 @@ namespace BlobStorageV12
             await download.Content.CopyToAsync(downloadFileStream);
             downloadFileStream.Close();
 
-           
+            Console.WriteLine("Type 1 to Delete or 0 to exit:\n");
+            bool choise = Console.Read() == 1 ? true : false;
 
+            if (choise){
+                await containerClient.DeleteAsync();
+                File.Delete(localFilePath);
+                File.Delete(downloadFilePath);
+                Console.WriteLine("Done!");
+            } else
+                Console.WriteLine("Exiting..");
         }
     }
 }
